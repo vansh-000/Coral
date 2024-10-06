@@ -19,6 +19,7 @@ const migrateDb = async () => {
     console.log("🟢 Sucessfully Migrated");
   } catch (error) {
     console.log("🔴 Error migrating database");
+    console.log(error);
   }
 };
 migrateDb();

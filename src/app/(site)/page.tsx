@@ -6,7 +6,7 @@ import Banner from "../../../public/appBanner.png";
 import Cal from "../../../public/cal.png";
 import Diamond from "../../../public/icons/diamond.svg";
 import CheckIcon from "../../../public/icons/check.svg";
-import { CLIENTS, PRICING_CARDS, PRICING_PLANS, USERS } from "@/lib/constants";
+import { PRICING_CARDS, PRICING_PLANS, USERS } from "@/lib/constants";
 import { randomUUID } from "crypto";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
@@ -55,31 +55,9 @@ const HomePage = () => {
             Get Coral Free
           </Button>
         </div>
-        <div
-          className="md:mt-[-90px]
-          sm:w-full
-          w-[750px]
-          flex
-          justify-center
-          items-center
-          mt-[-40px]
-          relative
-          sm:ml-0
-          ml-[-50px]
-        "
-        >
-          <Image src={Banner} alt="Application Banner" />
-          <div
-            className="bottom-0
-            top-[50%]
-            bg-gradient-to-t
-            dark:from-background
-            left-0
-            right-0
-            absolute
-            z-10
-          "
-          ></div>
+        <div className="flex m-5 justify-center rounded-xl items-center relative sm:ml-0 border-4 border-neutrals-700 shadow-[10px_-13px_10px_rgba(62,0,140,0.5)]">
+          <Image src={Banner} className="rounded-lg" width={1000} alt="Application Banner" />
+          {/* <div className=" bottom-0 top-[50%] bg-gradient-to-t dark:from-background left-0 right-0 absolute z-10"></div> */}
         </div>
       </section>
       <section
