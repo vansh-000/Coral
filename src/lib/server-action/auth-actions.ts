@@ -10,11 +10,20 @@ export async function actionLoginUser({
   password,
 }: z.infer<typeof FormSchema>) {
   const supabase = createRouteHandlerClient({ cookies });
-  const response = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-  return response;
+
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) {
+      return { error: { message: error.message } };
+    }
+    return { data };
+
+  } catch (err) {
+    return { error: { message: 'An unexpected error occurred during login.' } };
+  }
 }
 
 export async function actionSignUpUser({
@@ -22,18 +31,32 @@ export async function actionSignUpUser({
   password,
 }: z.infer<typeof FormSchema>) {
   const supabase = createRouteHandlerClient({ cookies });
-  const { data } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('email', email);
 
-  if (data?.length) return { error: { message: 'User already exists', data } };
-  const response = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}api/auth/callback`,
-    },
-  });
-  return response;
+  try {
+    const { data: existingUser, error: existingUserError } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('email', email);
+
+    if (existingUser?.length) {
+      return { error: { message: 'User already exists', data: existingUser } };
+    }
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`,
+      },
+    });
+
+    if (error) {
+      return { error: { message: error.message } };
+    }
+
+    return { data };
+
+  } catch (err) {
+    return { error: { message: 'An unexpected error occurred during sign-up.' } };
+  }
 }

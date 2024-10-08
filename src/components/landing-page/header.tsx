@@ -225,7 +225,7 @@ const Header = () => {
         justify-end
       "
       >
-        <Link href={'/login'}>
+        <Link href='/login'>
           <Button
             variant="btn-secondary"
             className=" p-1 hidden sm:block"
