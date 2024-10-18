@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
+  SheetDescription, 
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -30,7 +30,8 @@ const CollaboratorSearch: React.FC<CollaboratorSearchProps> = ({
   getCollaborator,
 }) => {
   const { user } = useSupabaseUser();
-  const [searchResults, setSearchResults] = useState<User[] | []>([]);
+  const [searchResults, setSearchResults] = useState<User[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
@@ -39,10 +40,36 @@ const CollaboratorSearch: React.FC<CollaboratorSearchProps> = ({
     };
   }, []);
 
-  const getUserData = ()=>{}
+  const getUserData = async (searchTerm: string) => {
+    if (!searchTerm) {
+      setSearchResults([]);
+      return;
+    }
+
+    setLoading(true);
+    
+    try {
+      const result = await getUsersFromSearch(searchTerm);
+      if (Array.isArray(result)) {
+        setSearchResults(result); 
+      } else {
+        setSearchResults([]); 
+      }
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      setSearchResults([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (timerRef) clearTimeout(timerRef.current);
+    const searchTerm = e.target.value;
+
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      getUserData(searchTerm);
+    }, 300);
   };
 
   const addCollaborator = (user: User) => {
@@ -67,8 +94,7 @@ const CollaboratorSearch: React.FC<CollaboratorSearchProps> = ({
           items-center
           gap-2
           mt-2
-        "
-        >
+        ">
           <Search />
           <Input
             name="name"
@@ -77,6 +103,16 @@ const CollaboratorSearch: React.FC<CollaboratorSearchProps> = ({
             onChange={onChangeHandler}
           />
         </div>
+        {loading && (
+          <div className="mt-4 text-center text-sm text-muted-foreground">
+            Searching...
+          </div>
+        )}
+        {!loading && searchResults.length === 0 && (
+          <div className="mt-4 text-center text-sm text-muted-foreground">
+            No users found.
+          </div>
+        )}
         <ScrollArea
           className="mt-6
           overflow-y-scroll
