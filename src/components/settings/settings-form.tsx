@@ -122,7 +122,7 @@ const SettingsForm = () => {
     });
     if (titleTimerRef.current) clearTimeout(titleTimerRef.current);
     titleTimerRef.current = setTimeout(async () => {
-      // await updateWorkspace({ title: e.target.value }, workspaceId);
+      await updateWorkspace({ title: e.target.value }, workspaceId);
     }, 500);
   };
 
@@ -294,8 +294,7 @@ const SettingsForm = () => {
               <ScrollArea
                 className="
             h-[120px]
-            overflow-y-scroll
-            w-full
+            w-4/5
             rounded-md
             border
             border-muted-foreground/20"

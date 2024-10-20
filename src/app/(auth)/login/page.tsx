@@ -18,7 +18,6 @@ import Logo from "../../../../public/logo.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/global/Loader";
-import { Separator } from "@/components/ui/separator";
 import { FormSchema } from "@/lib/types";
 import { actionLoginUser } from "@/lib/server-action/auth-actions";
 
@@ -41,7 +40,7 @@ const LoginPage = () => {
   // Reset the error when email or password fields change
   useEffect(() => {
     if (submitError) setSubmitError("");
-  }, [email, password]);
+  }, [email, password,submitError]);
 
   const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = async (
     formData

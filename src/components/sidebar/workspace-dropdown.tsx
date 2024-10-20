@@ -153,9 +153,7 @@ const WorkspaceDropdown: React.FC<WorkspaceDropdownProps> = ({
                    flex
                    items-center
                    justify-center"
-                >
-                  +
-                </article>
+                >+</article>
                 Create workspace
               </div>
             </CustomDialogTrigger>

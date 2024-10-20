@@ -55,7 +55,6 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, [state, listType, workspaceId, id, title]);
 
   //fileItitle
-
   const fileTitle: string | undefined = useMemo(() => {
     if (listType === 'file') {
       const fileAndFolderId = id.split('folder');
@@ -72,12 +71,10 @@ const Dropdown: React.FC<DropdownProps> = ({
   const navigatatePage = (accordionId: string, type: string) => {
     if (type === 'folder') {
       router.push(`/dashboard/${workspaceId}/${accordionId}`);
-    }
-    if (type === 'file') {
+    }else{
+      const currentPath = window.location.pathname;
       router.push(
-        `/dashboard/${workspaceId}/${folderId}/${
-          accordionId.split('folder')[1]
-        }`
+        `/dashboard/${workspaceId}/${currentPath.split('/')[3]}/${accordionId}`
       );
     }
   };
@@ -86,8 +83,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   const handleDoubleClick = () => {
     setIsEditing(true);
   };
-  //blur
 
+  //blur
   const handleBlur = async () => {
     if (!isEditing) return;
     setIsEditing(false);
@@ -262,7 +259,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           'group-hover/folder:block': listType === 'folder',
         }
       ),
-    [isFolder]
+    [listType]
   );
 
   const addNewFile = async () => {
@@ -272,27 +269,27 @@ const Dropdown: React.FC<DropdownProps> = ({
       data: null,
       createdAt: new Date().toISOString(),
       inTrash: null,
-      title: 'Untitled',
-      iconId: '📄',
+      title: "New File",
+      iconId: "📃",
       id: v4(),
       workspaceId,
-      bannerUrl: '',
+      bannerUrl: "",
     };
     dispatch({
-      type: 'ADD_FILE',
+      type: "ADD_FILE",
       payload: { file: newFile, folderId: id, workspaceId },
     });
     const { data, error } = await createFile(newFile);
     if (error) {
       toast({
-        title: 'Error',
-        variant: 'destructive',
-        description: 'Could not create a file',
+        title: "Error",
+        variant: "destructive",
+        description: "Could not create a file",
       });
     } else {
       toast({
-        title: 'Success',
-        description: 'File created.',
+        title: "Success",
+        description: "File created successfully",
       });
     }
   };
@@ -312,7 +309,6 @@ const Dropdown: React.FC<DropdownProps> = ({
         p-2 
         dark:text-muted-foreground 
         text-sm"
-        disabled={listType === 'file'}
       >
         <div className={groupIdentifies}>
           <div
