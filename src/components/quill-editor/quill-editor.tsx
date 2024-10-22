@@ -108,7 +108,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
       inTrash: dirDetails.inTrash,
       bannerUrl: dirDetails.bannerUrl,
     } as workspace | Folder | File;
-  }, [state, workspaceId, folderId]);
+  }, [state, workspaceId, folderId,dirDetails]);
 
   const breadCrumbs = useMemo(() => {
     if (!pathname || !state.workspaces || !workspaceId) return;

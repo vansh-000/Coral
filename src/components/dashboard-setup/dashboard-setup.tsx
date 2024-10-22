@@ -99,11 +99,13 @@ const DashboardSetup: React.FC<DashboardSetupProps> = ({
         type: 'ADD_WORKSPACE',
         payload: { ...newWorkspace, folders: [] },
       });
-      router.push(`/dashboard/${newWorkspace.id}`);
+
       toast({
         title: 'Workspace Created',
         description: `${newWorkspace.title} has been created successfully.`,
       });
+
+      // Only one redirect here
       router.push(`/dashboard/${newWorkspace.id}`);
     } catch (error) {
       console.log(error, 'Error');
@@ -123,7 +125,7 @@ const DashboardSetup: React.FC<DashboardSetupProps> = ({
       <CardHeader>
         <CardTitle>Create A Workspace</CardTitle>
         <CardDescription>
-          Lets create a private workspace to get you started. You can add
+          Let&apos;s create a private workspace to get you started. You can add
           collaborators later from the workspace settings tab.
         </CardDescription>
       </CardHeader>

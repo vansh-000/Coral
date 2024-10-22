@@ -32,12 +32,8 @@ const LoginPage = () => {
   });
 
   const isLoading = form.formState.isSubmitting;
-
-  // Extract form values to use in the dependency array
   const email = form.watch("email");
   const password = form.watch("password");
-
-  // Reset the error when email or password fields change
   useEffect(() => {
     if (submitError) setSubmitError("");
   }, [email, password,submitError]);
@@ -52,6 +48,7 @@ const LoginPage = () => {
     } else {
       router.replace("/dashboard");
     }
+    router.replace("/dashboard");
   };
 
   return (
